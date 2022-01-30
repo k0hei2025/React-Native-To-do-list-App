@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react'
 
 export default function App() {
@@ -34,7 +34,7 @@ export default function App() {
           />
           <Button onPress={clickedHandler} title="ADD" />
         </View>
-        <ScrollView style={styles.listContainer}>
+        {/* <ScrollView style={styles.listContainer}>
           {text.map((i) => {
             return (
               <View key={i.id} style={{ color: 'black', borderWidth: 1, borderStyle: 'solid', borderColor: 'black', flexDirection: 'row', justifyContent: 'space-between', margin: 7 }}>
@@ -46,7 +46,19 @@ export default function App() {
               </View>
             )
           })}
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList key={(item, index) => item.id} data={text} renderItem={(i) => (
+          <View style={{ color: 'black', borderWidth: 1, borderStyle: 'solid', borderColor: 'black', flexDirection: 'row', justifyContent: 'space-between', margin: 7 }}>
+            <Text>{i.item.message}</Text>
+            <Button title='Delete' onPress={() => {
+              let ar = text.filter(j => j.id !== i.item.id)
+              setText(ar)
+            }}>Delete</Button>
+          </View>
+        )
+        }>
+
+        </FlatList>
         {/* 
         
         <View style={styles.listContainer}>
