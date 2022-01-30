@@ -1,6 +1,7 @@
 
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react'
+import ItemList from './components/ItemList'
 
 export default function App() {
 
@@ -18,11 +19,11 @@ export default function App() {
       id: text.length + 1,
       message: msg
     }]);
-    console.log(text)
   }
-  const DeleteHandler = (params) => {
-    let tempArr = text.filter((i) => i === params)
+  const DeleteHandler = (trigerId) => {
+    let tempArr = text.filter((i) => i.id !== trigerId)
     setText(tempArr)
+    console.log('at delete handler', tempArr)
   }
 
   return (
@@ -48,30 +49,12 @@ export default function App() {
           })}
         </ScrollView> */}
         <FlatList key={(item, index) => item.id} data={text} renderItem={(i) => (
-          <View style={{ color: 'black', borderWidth: 1, borderStyle: 'solid', borderColor: 'black', flexDirection: 'row', justifyContent: 'space-between', margin: 7 }}>
-            <Text>{i.item.message}</Text>
-            <Button title='Delete' onPress={() => {
-              let ar = text.filter(j => j.id !== i.item.id)
-              setText(ar)
-            }}>Delete</Button>
-          </View>
+          <ItemList deleteItem={DeleteHandler} setArr={setText} arr={text} data={i.item} />
         )
         }>
 
         </FlatList>
-        {/* 
-        
-        <View style={styles.listContainer}>
-          {text.map((i) => {
-            return (
-              <View key={i.id} style={{ color: 'black', borderWidth: 1, borderStyle: 'solid', borderColor: 'black', padding: 2, margin: 1 }}>
-                <Text>{i.message}</Text>
-                <Button onPress={DeleteHandler(i)}>Delete</Button>
-              </View>
-            )
-          }
-          )}
-        </View> */}
+
       </View>
     </View >
   );
